@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Threat Node - CyberGuard</title>
+    <style>
+        /* ----------------------------------------------------------------- */
+        /* GLOBAL DESIGN SYSTEM (Times New Roman & Pristine White Theme Only) */
+        /* ----------------------------------------------------------------- */
+        * {
+            font-family: 'Times New Roman', Times, serif !important;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff; /* Pristine White */
+            color: #0f172a; /* Charcoal Blue */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar (Identical Layout) */
+        nav {
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #cbd5e1;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0f172a;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+            padding: 5px 0;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #0284c7 !important;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        /* Container styling */
+        .page-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        p.lead-text {
+            font-size: 18px;
+            color: #475569;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Panel Card Form Design */
+        .panel-card {
+            background-color: #f1f5f9; /* Off-white container background */
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Form Labels & Fields */
+        .form-group {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: #0284c7; /* Focus Highlight Blue */
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .help-tip {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            background-color: #0284c7 !important; /* Corporate Blue */
+            color: #ffffff !important;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
+        }
+
+        .btn-submit:hover {
+            background-color: #026ca5 !important;
+        }
+
+        /* Custom Modal Alert Window CSS */
+        .modal-overlay {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6); /* Translucent charcoal overlay */
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-box {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 35px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: center;
+            animation: popIn 0.3s ease-out;
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            color: #16a34a; /* Safe Green */
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .modal-text {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 25px;
+        }
+
+        .btn-modal-close {
+            background-color: #0284c7 !important;
+            color: #ffffff !important;
+            border: none;
+            padding: 10px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-modal-close:hover {
+            background-color: #026ca5 !important;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1.0); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 14px;
+            color: #64748b;
+            border-top: 1px solid #cbd5e1;
+            margin-top: 60px;
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Hover Navigation Bar (Centered) -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-logo">🛡️ CyberGuard: Scammer Prevent</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">🔍 Number Checker</a>
+                <a href="/education" class="nav-link">📚 Support Hub</a>
+                <a href="/quiz" class="nav-link">🎯 Safety Quiz</a>
+                <a href="/reporting" class="nav-link active">⚠️ Report Fraud</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        
+        <h1>Community Threat Register</h1>
+        <p class="lead-text">Flag suspected scam contacts immediately. Your reports will protect fellow citizens from financial drain schemes (₹).</p>
+
+        <!-- Threat Submission Form -->
+        <div class="panel-card" id="form-container">
+            <form id="threat-form" onsubmit="submitThreatReport(event)">
+                
+                <!-- Phone Number Input -->
+                <div class="form-group">
+                    <label for="phone-number" class="form-label">Phone Number / Sender ID</label>
+                    <input type="text" id="phone-number" class="form-input" required placeholder="e.g., 9876543210 or +91 8889991111" aria-required="true">
+                    <div class="help-tip">Include the country code or alphabetic SMS sender code if applicable. Spaces and dashes are stripped automatically.</div>
+                </div>
+
+                <!-- Company Name Input -->
+                <div class="form-group">
+                    <label for="company-name" class="form-label">Impersonated Organization / Entity</label>
+                    <input type="text" id="company-name" class="form-input" required placeholder="e.g., SBI Customer Service, Paytm KYC Team, Amazon Refund Agent" aria-required="true">
+                    <div class="help-tip">The corporate name the fraudulent caller claimed to represent.</div>
+                </div>
+
+                <!-- Description of Incident -->
+                <div class="form-group">
+                    <label for="description" class="form-label">Description of Incident (Min. 10 characters)</label>
+                    <textarea id="description" class="form-textarea" required placeholder="e.g., Caller claimed our UPI was locked and demanded we scan a WhatsApp QR code to receive a ₹2,500 refund." aria-required="true"></textarea>
+                    <div class="help-tip">Outline the scam mechanics clearly (e.g., asked for OTP, UPI PIN, download of screen-sharing tools, or security payments).</div>
+                </div>
+
+                <!-- Submit Action Trigger -->
+                <button type="submit" class="btn-submit" id="btn-submit-report">Submit Threat Log to SQLite</button>
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Custom Modal Popup Alert Window (Clean Interface Upgrade) -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-box">
+            <div class="modal-icon">✅</div>
+            <div class="modal-title" id="modal-heading">Threat Registered!</div>
+            <div class="modal-text" id="modal-paragraph">The reported fraud pattern has been successfully recorded in the local SQLite table. This registry is now instantly active.</div>
+            <button class="btn-modal-close" onclick="closeSuccessModal()">Return to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Corporate Footer -->
+    <footer>
+        <p>&copy; CyberGuard Scammer Prevention Portal - Academic Project Presentation.</p>
+        <p>Providing trusted threat telemetry securely without revealing raw, unverified contact numbers.</p>
+    </footer>
+
+    <!-- BEGINNER-FRIENDLY CODE DOCUMENTATION -->
+    <script>
+        /**
+         * Threat submission action:
+         * Prevents natural browser submission reloads, aggregates inputs, 
+         * and dispatches a secure Fetch POST payload to the Flask endpoint.
+         */
+        function submitThreatReport(event) {
+            event.preventDefault(); // Stop default browser page navigation
+            
+            const phoneNumber = document.getElementById('phone-number').value.trim();
+            const companyName = document.getElementById('company-name').value.trim();
+            const description = document.getElementById('description').value.trim();
+            
+            const submitBtn = document.getElementById('btn-submit-report');
+            
+            // Front-end sanity verification
+            if (!phoneNumber || !companyName || !description) {
+                alert("Please fill in all database fields before logging.");
+                return;
+            }
+
+            if (description.length < 10) {
+                alert("Please provide a more descriptive incident detail (minimum 10 characters).");
+                return;
+            }
+
+            // Visual feedback - disable button during network round-trip
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Writing to Database...";
+
+            // Use the Fetch API to submit JSON-formatted database parameters
+            fetch('/submit-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone_number: phoneNumber,
+                    company_name: companyName,
+                    description: description
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Local SQLite transaction failed. Check input parameters.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // If the transaction writes successfully to SQLite:
+                if (data.status === 'success') {
+                    // Reveal our elegant overlay dialog box
+                    const modal = document.getElementById('success-modal');
+                    modal.style.display = "flex";
+                    
+                    // Clear the input fields for Subsequent Reports
+                    document.getElementById('threat-form').reset();
+                } else {
+                    alert("Database Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Submission Error:", error);
+                alert("Could not reach SQLite server. Error details: " + error.message);
+            })
+            .finally(() => {
+                // Restore button state
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Threat Log to SQLite";
+            });
+        }
+
+        /**
+         * Closes the dynamic success dialog box safely.
+         */
+        function closeSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
