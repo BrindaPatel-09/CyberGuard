@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Directory & Awareness Hub - CyberGuard</title>
+    <style>
+        /* ----------------------------------------------------------------- */
+        /* GLOBAL DESIGN SYSTEM (Times New Roman & Pristine White Theme Only) */
+        /* ----------------------------------------------------------------- */
+        * {
+            font-family: 'Times New Roman', Times, serif !important;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff; /* Pristine White */
+            color: #0f172a; /* Charcoal Blue */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar (Identical Layout) */
+        nav {
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #cbd5e1;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0f172a;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+            padding: 5px 0;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #0284c7 !important;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        /* Grid Layout & Containers */
+        .page-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #0f172a;
+            letter-spacing: 0.5px;
+        }
+
+        /* Off-white stylized boxes */
+        .panel-card {
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        /* Flex & Grid layouts */
+        .grid-two-cols {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        @media(min-width: 768px) {
+            .grid-two-cols {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        /* Interactive corporate block entries */
+        .corp-item {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+        }
+
+        .corp-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #0284c7;
+        }
+
+        .corp-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .corp-desc {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 15px;
+            min-height: 45px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background-color: #0284c7 !important; /* Corporate Blue */
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-link:hover {
+            background-color: #026ca5 !important;
+        }
+
+        /* Emergency Contacts Block */
+        .emergency-box {
+            background-color: #fef2f2; /* Soft red danger tone */
+            border: 2px dashed #dc2626; /* Crimson dotted line */
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .emergency-badge {
+            background-color: #dc2626;
+            color: #ffffff;
+            padding: 5px 15px;
+            font-weight: bold;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .emergency-num {
+            font-size: 36px;
+            font-weight: bold;
+            color: #dc2626;
+            margin: 5px 0;
+        }
+
+        /* Interactive Safety Checklist CSS */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .checklist-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .checklist-checkbox {
+            margin-top: 5px;
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+
+        .checklist-text {
+            font-size: 15px;
+        }
+
+        .checklist-title {
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 3px;
+        }
+
+        /* Scam Awareness Accordion Entries */
+        .awareness-card {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .awareness-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .awareness-badge-warning {
+            background-color: #fff7ed;
+            color: #f97316;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid #ffd8a8;
+        }
+
+        .awareness-body {
+            font-size: 15px;
+            color: #334155;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 14px;
+            color: #64748b;
+            border-top: 1px solid #cbd5e1;
+            margin-top: 60px;
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Hover Navigation Bar (Centered) -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-logo">🛡️ CyberGuard: Scammer Prevent</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">🔍 Number Checker</a>
+                <a href="/education" class="nav-link active">📚 Support Hub</a>
+                <a href="/quiz" class="nav-link">🎯 Safety Quiz</a>
+                <a href="/reporting" class="nav-link">⚠️ Report Fraud</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <!-- Section A: Verified Corporate Directory -->
+        <div class="section-header" id="sec-corporate">Section A: Verified Corporate Support Directory</div>
+        <div class="panel-card">
+            <p style="margin-top:0; font-size: 16px; margin-bottom: 20px; color: #475569;">
+                ⚠️ <strong>Prevention Principle:</strong> Fake phone directories are the main threat vector for customer care scams. To safeguard our community, CyberGuard <strong>does not display telephone contacts directly</strong>. Always use the authorized web channels below to request helpline assistance.
+            </p>
+            
+            <div class="directory-grid">
+                <!-- Paytm -->
+                <div class="corp-item">
+                    <div class="corp-name">Paytm</div>
+                    <div class="corp-desc">Official customer grievances, account disputes, and 24x7 helpdesk console.</div>
+                    <a href="https://paytm.com/care" target="_blank" rel="noopener noreferrer" class="btn-link">Official Care Desk</a>
+                </div>
+                <!-- Amazon -->
+                <div class="corp-item">
+                    <div class="corp-name">Amazon India</div>
+                    <div class="corp-desc">Secure refunds, delivery tracking, and official customer representative console.</div>
+                    <a href="https://www.amazon.in/gp/help/customer/display.html" target="_blank" rel="noopener noreferrer" class="btn-link">Official Care Desk</a>
+                </div>
+                <!-- Flipkart -->
+                <div class="corp-item">
+                    <div class="corp-name">Flipkart</div>
+                    <div class="corp-desc">Order cancelation requests, wallet inquiries, and direct secure help support.</div>
+                    <a href="https://www.flipkart.com/helpcentre" target="_blank" rel="noopener noreferrer" class="btn-link">Official Care Desk</a>
+                </div>
+                <!-- SBI -->
+                <div class="corp-item">
+                    <div class="corp-name">State Bank of India</div>
+                    <div class="corp-desc">ATM blockages, card cancellations, and official public grievance registry portals.</div>
+                    <a href="https://bank.sbi/web/customer-care" target="_blank" rel="noopener noreferrer" class="btn-link">Official Care Desk</a>
+                </div>
+                <!-- HDFC Bank -->
+                <div class="corp-item">
+                    <div class="corp-name">HDFC Bank</div>
+                    <div class="corp-desc">Netbanking dispute center, card freezing systems, and virtual banking helplines.</div>
+                    <a href="https://www.hdfcbank.com/personal/need-help/customer-care" target="_blank" rel="noopener noreferrer" class="btn-link">Official Care Desk</a>
+                </div>
+                <!-- Airtel -->
+                <div class="corp-item">
+                    <div class="corp-name">Airtel India</div>
+                    <div class="corp-desc">SIM replacement validation, mobile broadband queries, and broadband support.</div>
+                    <a href="https://www.airtel.in/customer-care" target="_blank" rel="noopener noreferrer" class="btn-link">Official Care Desk</a>
+                </div>
+                <!-- Jio -->
+                <div class="corp-item">
+                    <div class="corp-name">Reliance Jio</div>
+                    <div class="corp-desc">Telecom registration status, Fiber support channels, and official complaint registers.</div>
+                    <a href="https://www.jio.com/en-in/help-support" target="_blank" rel="noopener noreferrer" class="btn-link">Official Care Desk</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-two-cols">
+            <!-- Section B: Emergency Response Center -->
+            <div>
+                <div class="section-header" id="sec-emergency">Section B: Emergency Response Center</div>
+                <div class="emergency-box">
+                    <span class="emergency-badge">IMMEDIATE POLICE INTERVENTION</span>
+                    <div style="font-size: 16px; color: #7f1d1d; font-weight: bold;">National Cybercrime Toll-Free Hotline</div>
+                    <div class="emergency-num">📞 1930</div>
+                    <p style="font-size: 14px; color: #7f1d1d; margin: 0 0 15px 0;">
+                        Call immediately if you have lost money to banking fraud (within 2 hours to activate bank-level transaction freezes).
+                    </p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                        <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="btn-link" style="background-color: #dc2626 !important;">cybercrime.gov.in</a>
+                        <a href="https://sancharsaathi.gov.in" target="_blank" rel="noopener noreferrer" class="btn-link" style="background-color: #475569 !important;">Sanchar Saathi Portal</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section C: Safety Rules Checklist -->
+            <div>
+                <div class="section-header" id="sec-checklist">Section C: Safety Rules Checklist</div>
+                <div class="panel-card" style="background-color: #ffffff; padding: 20px;">
+                    <p style="margin-top:0; color:#475569; font-size:14px; margin-bottom: 15px;">Check off completed safety rules to assess your threat readiness:</p>
+                    
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <input type="checkbox" class="checklist-checkbox" onclick="event.stopPropagation()">
+                        <div class="checklist-text">
+                            <div class="checklist-title" style="color: #16a34a;">Never Share OTPs</div>
+                            <div>One-Time Passwords are the keys to authorization. Official support representatives will absolutely never request your OTP.</div>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <input type="checkbox" class="checklist-checkbox" onclick="event.stopPropagation()">
+                        <div class="checklist-text">
+                            <div class="checklist-title" style="color: #16a34a;">UPI PIN Safeguard</div>
+                            <div>UPI PIN is exclusively used to *send/deduct* money, never to receive a deposit, refund (₹), or cashback.</div>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <input type="checkbox" class="checklist-checkbox" onclick="event.stopPropagation()">
+                        <div class="checklist-text">
+                            <div class="checklist-title" style="color: #16a34a;">Zero Screen Sharing Apps</div>
+                            <div>Under no circumstances install AnyDesk, TeamViewer, or RustDesk on the suggestion of any helpline caller. Doing so exposes your phone screencast.</div>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" onclick="toggleCheck(this)">
+                        <input type="checkbox" class="checklist-checkbox" onclick="event.stopPropagation()">
+                        <div class="checklist-text">
+                            <div class="checklist-title" style="color: #16a34a;">No Receiving / Refund Fees</div>
+                            <div>Never transfer any token security deposits or verification fees (₹) to claim customer service refunds or raffle rewards.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section D: Scam Awareness Index -->
+        <div class="section-header" id="sec-index">Section D: Scam Awareness Index</div>
+        <div class="panel-card" style="background-color: #f8fafc;">
+            
+            <!-- Case 1 -->
+            <div class="awareness-card">
+                <div class="awareness-title">
+                    <span>1. Fake Customer Care Numbers Scam</span>
+                    <span class="awareness-badge-warning">High Frequency</span>
+                </div>
+                <div class="awareness-body">
+                    <strong>Modus Operandi:</strong> Fraudsters purchase search engine ads or inject fake web links containing their mobile phone numbers disguised as official Paytm, SBI, or HDFC helpline portals. When anxious consumers lookup contacts on search engines, they dial the scammers directly.
+                    <br><strong style="color: #0284c7;">Defense Vector:</strong> Disregard organic search engine results for financial contacts. Navigate directly to authorized domains like <code>sbi.co.in</code> to obtain help desk info.
+                </div>
+            </div>
+
+            <!-- Case 2 -->
+            <div class="awareness-card">
+                <div class="awareness-title">
+                    <span>2. Fake Product Refund Schemes</span>
+                    <span class="awareness-badge-warning">E-Commerce Threat</span>
+                </div>
+                <div class="awareness-body">
+                    <strong>Modus Operandi:</strong> Scammers crawl public order registries or leverage delivery delays to call buyers. They promise a cashback refund of ₹5,000 to resolve disputes, sending a "collect request" QR code on WhatsApp. Scanning the QR code prompts users to input their UPI PIN, immediately draining their bank balance.
+                    <br><strong style="color: #0284c7;">Defense Vector:</strong> Remember that receiving funds (₹) in your bank account requires zero OTP, zero QR-code scan, and zero UPI PIN authentication.
+                </div>
+            </div>
+
+            <!-- Case 3 -->
+            <div class="awareness-card">
+                <div class="awareness-title">
+                    <span>3. KYC Suspensions and Update Traps</span>
+                    <span class="awareness-badge-warning">Regulatory Fraud</span>
+                </div>
+                <div class="awareness-body">
+                    <strong>Modus Operandi:</strong> Victims receive automated SMS warnings stating: <i>"Your bank account / SIM card is deactivated. Update KYC instantly to avoid suspension."</i> The SMS directs them to a personal mobile number or a cloned bank replica form. Scammers steal credential payloads and withdraw balances immediately.
+                    <br><strong style="color: #0284c7;">Defense Vector:</strong> Official telecom providers and public sector banks never dispatch KYC notifications originating from ordinary individual mobile lines (+91-9xxx).
+                </div>
+            </div>
+
+            <!-- Case 4 -->
+            <div class="awareness-card">
+                <div class="awareness-title">
+                    <span>4. Digital Arrest Scams</span>
+                    <span class="awareness-badge-warning">Extortion Hazard</span>
+                </div>
+                <div class="awareness-body">
+                    <strong>Modus Operandi:</strong> Scammers pose as police officials, CBI agents, or narcotics bureaus via video calls, claiming that a package with contraband or money-laundering instruments was sent using the victim's Aadhaar credentials. They force victims to remain on video call (imposing a fake "digital arrest") and extort lakhs in mock "bail bond deposits".
+                    <br><strong style="color: #0284c7;">Defense Vector:</strong> Indian investigative agencies (CBI, Customs, Local Police) never initiate interrogations or arrests via Skype/WhatsApp video calls, nor do they demand fund transfers for security clearances.
+                </div>
+            </div>
+
+            <!-- Case 5 -->
+            <div class="awareness-card">
+                <div class="awareness-title">
+                    <span>5. UPI Merchant Collect Fraud</span>
+                    <span class="awareness-badge-warning">Financial Trap</span>
+                </div>
+                <div class="awareness-body">
+                    <strong>Modus Operandi:</strong> Fraudsters claim they are purchasing second-hand items listed by victims on online classifieds. They claim to send payment but trigger a "UPI collect request" on Paytm, Google Pay, or PhonePe instead. The victim clicks approval, expecting a credit, but authorizes a debit from their own account.
+                    <br><strong style="color: #0284c7;">Defense Vector:</strong> Carefully inspect incoming payment screens. If it prompts "Enter UPI PIN", it is a request to deduct money from your account!
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Corporate Footer -->
+    <footer>
+        <p>&copy; CyberGuard Scammer Prevention Portal - Academic Project Presentation.</p>
+        <p>Providing trusted threat telemetry securely without revealing raw, unverified contact numbers.</p>
+    </footer>
+
+    <!-- BEGINNER-FRIENDLY CODE DOCUMENTATION -->
+    <script>
+        /**
+         * Simple Checklist State Manager:
+         * Toggles the checked status of checkboxes when users click on the surrounding panel card,
+         * improving touch-target accessibility and styling interactions on mobile screens.
+         */
+        function toggleCheck(cardElement) {
+            const checkbox = cardElement.querySelector('.checklist-checkbox');
+            checkbox.checked = !checkbox.checked;
+        }
+    </script>
+</body>
+</html>
