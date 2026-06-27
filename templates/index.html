@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard: Customer Care Scam Prevention Portal</title>
+    <style>
+        /* ----------------------------------------------------------------- */
+        /* GLOBAL DESIGN SYSTEM (Times New Roman & Pristine White Theme Only) */
+        /* ----------------------------------------------------------------- */
+        * {
+            font-family: 'Times New Roman', Times, serif !important;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff; /* Pristine White Background */
+            color: #0f172a; /* Corporate Deep Charcoal Blue */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Unified Navigation Bar Styling */
+        nav {
+            background-color: #f1f5f9; /* Soft Off-White Panel */
+            border-bottom: 1px solid #cbd5e1; /* Subtle Gray Border */
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0f172a;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+            padding: 5px 0;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        /* Hover action and Active state indicators using corporate trust blue */
+        .nav-link:hover, .nav-link.active {
+            color: #0284c7 !important;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        /* Main Container and Prominent Warning Banner */
+        .main-wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .alert-banner {
+            background-color: #fef2f2; /* Highly distinct soft red alert box */
+            border: 2px solid #dc2626; /* Deep crimson outline */
+            color: #dc2626; /* Warning red color */
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 35px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(220, 38, 38, 0.08);
+        }
+
+        /* Structured Card Container */
+        .panel-card {
+            background-color: #f1f5f9; /* Off-white container shade */
+            border: 1px solid #cbd5e1; /* Clear subtle outline */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Soft elevation shadow */
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        p.lead-text {
+            font-size: 18px;
+            color: #475569;
+            margin-bottom: 30px;
+        }
+
+        /* Search Input and Button Styles */
+        .search-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media(min-width: 600px) {
+            .search-group {
+                flex-direction: row;
+            }
+        }
+
+        .input-field {
+            flex-grow: 1;
+            padding: 15px;
+            font-size: 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: #0284c7; /* Highlight active with corporate trust blue */
+        }
+
+        .btn-check {
+            background-color: #0284c7 !important; /* Corporate trust blue */
+            color: #ffffff !important;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
+        }
+
+        .btn-check:hover {
+            background-color: #026ca5 !important;
+        }
+
+        /* Results Display Panel */
+        .results-box {
+            display: none; /* Initially hidden until a search completes */
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 6px;
+            text-align: left;
+            border-left: 6px solid #cbd5e1;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        /* Color Codes for API Response Statuses */
+        .results-box.high-risk {
+            background-color: #fef2f2;
+            border-color: #dc2626; /* Deep warning red */
+        }
+        .results-box.suspicious {
+            background-color: #fff7ed;
+            border-color: #f97316; /* Warning orange */
+        }
+        .results-box.unverified {
+            background-color: #fffbeb;
+            border-color: #eab308; /* Alert gold/yellow */
+        }
+        .results-box.safe {
+            background-color: #f0fdf4;
+            border-color: #16a34a; /* Validation green */
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .high-risk .status-badge { background-color: #dc2626; }
+        .suspicious .status-badge { background-color: #f97316; }
+        .unverified .status-badge { background-color: #f97316; } /* Color warning orange as requested */
+        .safe .status-badge { background-color: #16a34a; }
+
+        .results-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+
+        .high-risk .results-title { color: #dc2626; }
+        .suspicious .results-title { color: #f97316; }
+        .unverified .results-title { color: #f97316; } /* Orange warning for suspicious node */
+        .safe .results-title { color: #16a34a; }
+
+        .results-description {
+            font-size: 16px;
+            color: #0f172a;
+            margin: 0 0 20px 0;
+        }
+
+        /* Specific Incident Reports List */
+        .reports-container {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #cbd5e1;
+        }
+
+        .report-item {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .report-header {
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 14px;
+            color: #64748b;
+            border-top: 1px solid #cbd5e1;
+            margin-top: 60px;
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Hover Navigation Bar (Centered) -->
+    <nav id="nav-bar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo" id="brand-logo">🛡️ CyberGuard: Scammer Prevent</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link active" id="link-home">🔍 Number Checker</a>
+                <a href="/education" class="nav-link" id="link-education">📚 Support Hub</a>
+                <a href="/quiz" class="nav-link" id="link-quiz">🎯 Safety Quiz</a>
+                <a href="/reporting" class="nav-link" id="link-reporting">⚠️ Report Fraud</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Workspace Area -->
+    <div class="main-wrapper">
+        
+        <!-- Highly Prominent Warning Banner (Critical Request) -->
+        <div class="alert-banner" id="google-search-warning">
+            ⚠️ Never search for customer care numbers on Google. Scammers often create fake ads and websites.
+        </div>
+
+        <!-- Central Lookup Tool -->
+        <div class="panel-card" id="lookup-panel">
+            <h1>Scam Helpline Checker</h1>
+            <p class="lead-text">Verify corporate customer service contacts instantly before dialing. We analyze community databases and Indian mobile markers.</p>
+            
+            <div class="search-group">
+                <input type="text" id="phone-input" class="input-field" placeholder="Enter Phone Number (e.g. 9876543210)" aria-label="Enter Customer Service Number">
+                <button onclick="performCheck()" class="btn-check" id="btn-search">Query Registry</button>
+            </div>
+            
+            <div style="font-size: 14px; color: #475569; text-align: left;">
+                💡 <strong>Demonstration Tips:</strong>
+                <ul style="margin: 5px 0 0 20px; padding: 0;">
+                    <li>Type <strong>9876543210</strong> to view a <strong style="color: #dc2626;">High Risk</strong> (multiple reports) warning.</li>
+                    <li>Type <strong>8889991111</strong> to view a <strong style="color: #f97316;">Suspicious Node</strong> flag.</li>
+                    <li>Type any standard Indian mobile number (e.g., <strong>9812345678</strong>) to view an <strong style="color: #f97316;">Unverified Mobile Endpoint</strong> warning.</li>
+                </ul>
+            </div>
+
+            <!-- Dynamic Verification Result Panel -->
+            <div id="results-panel" class="results-box">
+                <span id="badge-element" class="status-badge">EVALUATION</span>
+                <div id="verdict-title" class="results-title">Verdict Title</div>
+                <p id="verdict-text" class="results-description">Detailed feedback message from verification analysis.</p>
+                
+                <!-- Detailed Database Reports Panel -->
+                <div id="detailed-reports" class="reports-container" style="display: none;">
+                    <div style="font-weight: bold; font-size: 16px; margin-bottom: 12px; color: #0f172a;">
+                        Related Public Incident Logs (₹):
+                    </div>
+                    <div id="reports-list"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quick Threat Incident Report Panel -->
+        <div class="panel-card" id="quick-report-panel" style="margin-top: 40px; text-align: left; background-color: #f8fafc; border-color: #cbd5e1;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px;">
+                <span style="font-size: 24px; color: #0284c7;">✍️</span>
+                <h2 style="font-size: 24px; font-weight: bold; color: #0f172a; margin: 0; font-family: 'Times New Roman', Times, serif !important;">
+                    Quick Community Threat Registration
+                </h2>
+            </div>
+            <p style="color: #475569; margin-bottom: 20px; font-size: 15px;">
+                Identify a new scam attempt? Register the endpoint instantly to warn others in real-time.
+            </p>
+            <form id="quick-threat-form" onsubmit="submitQuickReport(event)" style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <div style="flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 5px;">
+                        <label for="quick-phone" style="font-weight: bold; font-size: 14px; color: #0f172a;">Scam Phone Number / ID</label>
+                        <input type="text" id="quick-phone" required class="input-field" placeholder="e.g. 9876543210" style="padding: 10px 12px; font-size: 15px;">
+                    </div>
+                    <div style="flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 5px;">
+                        <label for="quick-company" style="font-weight: bold; font-size: 14px; color: #0f172a;">Impersonated Company</label>
+                        <input type="text" id="quick-company" required class="input-field" placeholder="e.g. SBI Support, DHL Refund" style="padding: 10px 12px; font-size: 15px;">
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <label for="quick-description" style="font-weight: bold; font-size: 14px; color: #0f172a;">Incident Description (Min 10 chars)</label>
+                    <textarea id="quick-description" required class="input-field" rows="3" placeholder="Describe the scam trick or mechanics (e.g. asked for OTP or scanned QR code)" style="padding: 10px 12px; font-size: 15px; resize: vertical; min-height: 80px;"></textarea>
+                </div>
+                <button type="submit" class="btn-check" style="align-self: flex-start; padding: 10px 20px; font-size: 15px;">Log New Incident (₹)</button>
+            </form>
+        </div>
+
+        <!-- Dedicated Container Panel for Live Incident Feed Logs -->
+        <div class="panel-card" id="incident-feed-panel" style="margin-top: 40px; background-color: #f1f5f9; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px;">
+                <span style="font-size: 24px; color: #dc2626;">🚨</span>
+                <h2 style="font-size: 24px; font-weight: bold; color: #dc2626; margin: 0; font-family: 'Times New Roman', Times, serif !important;">
+                    Live Community Incident Feed Logs
+                </h2>
+            </div>
+
+            <div id="live-feed-list">
+                <!-- noscript tag handles secure Jinja parsing during python execution -->
+                <noscript id="jinja-noscript">
+                {% if reports %}
+                    {% for report in reports %}
+                    <div class="report-log-card" style="background-color: #ffffff; border-left: 5px solid #dc2626; padding: 15px 20px; border-radius: 4px; margin-bottom: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; text-align: left;">
+                        <div style="font-weight: bold; color: #0f172a; margin-bottom: 8px; font-size: 16px;">
+                            <span style="color: #dc2626;">Suspect: {{ report.phone_number }}</span>
+                            <span style="color: #475569; font-size: 14px; margin-left: 8px;">(Impersonated: {{ report.company_name }})</span>
+                        </div>
+                        <div style="font-size: 15px; color: #334155; line-height: 1.5;">
+                            {{ report.description }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align: center; color: #64748b; font-style: italic;">No recent scam reports logged yet. Be the first to contribute!</p>
+                {% endif %}
+                </noscript>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Corporate Bottom Footnote -->
+    <footer>
+        <p>&copy; CyberGuard Scammer Prevention Portal - Academic Project Presentation.</p>
+        <p>Providing trusted threat telemetry securely without revealing raw, unverified contact numbers.</p>
+    </footer>
+
+    <!-- BEGINNER-FRIENDLY FRONTEND JAVASCRIPT EXPLANATIONS -->
+    <script>
+        /**
+         * Heuristic Client-Side Trick Analyzer:
+         * Intercepts common phone manipulation tricks used by scammers before making database queries.
+         */
+        function analyzeScamTricks(phoneNumber) {
+            const raw = phoneNumber.trim();
+            // Match any alphabetic characters (a-z, A-Z)
+            const hasLetters = /[a-zA-Z]/.test(raw);
+            const sanitized = raw.replace(/[^0-9]/g, "");
+            const reasons = [];
+
+            // Trick 1: Alphabetical / Homoglyph Spoofing
+            if (hasLetters) {
+                const homoglyphs = [];
+                if (/o/i.test(raw)) homoglyphs.push("'O' / 'o' (mimicking '0')");
+                if (/[il]/i.test(raw)) homoglyphs.push("'I' / 'l' (mimicking '1')");
+                if (/s/i.test(raw)) homoglyphs.push("'S' / 's' (mimicking '5')");
+
+                if (homoglyphs.length > 0) {
+                    reasons.push(`Alphabetical Homoglyph Spoofing: Contains letters ${homoglyphs.join(', ')} masquerading as numeric digits.`);
+                } else {
+                    reasons.push("Alphabetical Impersonation: Official banking numbers use pure digits. Scammers use letters to bypass spam filtering registries.");
+                }
+            }
+
+            // Trick 2: USSD / Code Forwarding Traps
+            if (raw.includes('*') || raw.includes('#')) {
+                reasons.push("USSD / Redirection Trap: Number contains Star (*) or Hash (#) keys. Scammers instruct victims to enter these codes to trigger background SMS or call forwarding traps.");
+            }
+
+            // Trick 3: Mimicking a 1800 Toll-Free number
+            if (sanitized.startsWith("1800")) {
+                if (sanitized.length !== 11) {
+                    reasons.push(`Mimicking a 1800 Toll-Free number: Standard Indian toll-free lines are exactly 11 digits long. This number has ${sanitized.length} digits, indicating a deceptive prefix trick.`);
+                }
+                const suffix = sanitized.substring(4);
+                if (/^[6-9]/.test(suffix) && suffix.length === 10) {
+                    reasons.push("Mobile Prefix Overlay Trap: Prepend of '1800' directly to a personal mobile number to mask the private SIM endpoint.");
+                }
+            }
+
+            // Trick 4: High-Risk International Gateway Spoofing
+            if (raw.startsWith("+") && !raw.startsWith("+91")) {
+                reasons.push("High-Risk International Gateway: Uses overseas country prefixes representing locations known for organized cyber rings, while pretending to be a local institution.");
+            }
+
+            if (reasons.length > 0) {
+                const isCritical = raw.includes('*') || raw.includes('#') || hasLetters || (raw.startsWith("+") && !raw.startsWith("+91"));
+                return {
+                    status: isCritical ? "🚨 CRITICAL DANGER TRICK DETECTED" : "⚠️ SUSPICIOUS PATTERN DETECTED",
+                    color: isCritical ? "#dc2626" : "#f97316",
+                    risk_level: isCritical ? "CRITICAL TRICK EXPLOIT ALERT" : "SUSPICIOUS ALGORITHM HEURISTIC",
+                    verdict: "Trick Analysis Alert: Our heuristic analysis identified scam tactics designed to bypass registry databases: " + reasons.join(" ")
+                };
+            }
+
+            return null; // Clean
+        }
+
+        /**
+         * Core Search Handler:
+         * Performs Heuristic Checks first, then queries the Flask/Express backend via the Fetch API.
+         */
+        function performCheck() {
+            const phoneInput = document.getElementById('phone-input').value.trim();
+            const resultsPanel = document.getElementById('results-panel');
+            const badgeElement = document.getElementById('badge-element');
+            const verdictTitle = document.getElementById('verdict-title');
+            const verdictText = document.getElementById('verdict-text');
+            const detailedReports = document.getElementById('detailed-reports');
+            const reportsList = document.getElementById('reports-list');
+
+            if (!phoneInput) {
+                alert("Please enter a phone number to analyze.");
+                return;
+            }
+
+            // Hide previous results to prevent visual overlay during loading
+            resultsPanel.className = "results-box";
+            resultsPanel.style.display = "none";
+            detailedReports.style.display = "none";
+            reportsList.innerHTML = "";
+
+            // 1. Run scam trick heuristic analysis block FIRST
+            const trickResult = analyzeScamTricks(phoneInput);
+            if (trickResult) {
+                resultsPanel.style.display = "block";
+                resultsPanel.style.borderColor = trickResult.color;
+                
+                if (trickResult.color === '#dc2626') {
+                    resultsPanel.style.backgroundColor = '#fef2f2'; // Soft danger red background
+                } else {
+                    resultsPanel.style.backgroundColor = '#fff7ed'; // Soft warning orange background
+                }
+
+                // Render badge text and colors dynamically
+                badgeElement.innerText = trickResult.status;
+                badgeElement.style.backgroundColor = trickResult.color;
+                badgeElement.style.color = '#ffffff';
+
+                // Render verdict details dynamically
+                verdictTitle.innerText = trickResult.risk_level;
+                verdictTitle.style.color = trickResult.color;
+                verdictText.innerText = trickResult.verdict;
+                return; // Prevent standard database query if trick is detected!
+            }
+
+            // 2. If clean, proceed with standard asynchronous fetch API call
+            fetch('/check-number', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone_number: phoneInput
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Server communication failure or invalid parameter input.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                resultsPanel.style.display = "block";
+                resultsPanel.className = "results-box"; // reset classes
+                
+                const accentColor = data.color || '#cbd5e1';
+                resultsPanel.style.borderColor = accentColor;
+                
+                if (accentColor === '#dc2626') {
+                    resultsPanel.style.backgroundColor = '#fef2f2';
+                } else if (accentColor === '#f97316') {
+                    resultsPanel.style.backgroundColor = '#fff7ed';
+                } else {
+                    resultsPanel.style.backgroundColor = '#f0fdf4';
+                }
+
+                badgeElement.innerText = data.status || "EVALUATION";
+                badgeElement.style.backgroundColor = accentColor;
+                badgeElement.style.color = '#ffffff';
+
+                verdictTitle.innerText = data.risk_level || "Analysis Verdict";
+                verdictTitle.style.color = accentColor;
+                verdictText.innerText = data.verdict;
+
+                if (data.reports && data.reports.length > 0) {
+                    detailedReports.style.display = "block";
+                    data.reports.forEach(report => {
+                        const div = document.createElement('div');
+                        div.className = "report-item";
+                        div.innerHTML = `
+                            <div class="report-header">Claimed Organization: ${report.company_name}</div>
+                            <div style="font-size: 15px; color: #0f172a;">${report.description}</div>
+                        `;
+                        reportsList.appendChild(div);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Fetch Exception:", error);
+                alert("Threat intelligence lookup failed: " + error.message);
+            });
+        }
+
+        /**
+         * Quick Threat Incident Reporting Action:
+         * Commits user threat observations directly to backend.
+         */
+        function submitQuickReport(event) {
+            event.preventDefault();
+            const phoneNumber = document.getElementById('quick-phone').value.trim();
+            const companyName = document.getElementById('quick-company').value.trim();
+            const description = document.getElementById('quick-description').value.trim();
+
+            if (!phoneNumber || !companyName || !description) {
+                alert("Please fill in all incident report details.");
+                return;
+            }
+
+            fetch('/submit-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    phone_number: phoneNumber,
+                    company_name: companyName,
+                    description: description
+                })
+            })
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(data => { throw new Error(data.message || "Submission rejected.") });
+                }
+                return res.json();
+            })
+            .then(data => {
+                alert(data.message || "Threat successfully registered!");
+                // Reset quick form fields
+                document.getElementById('quick-threat-form').reset();
+                // Dynamically reload logs
+                loadLiveReports();
+            })
+            .catch(err => {
+                alert("Failed to submit quick report: " + err.message);
+            });
+        }
+
+        /**
+         * Loads and displays the Live Incident Feed logs in real-time.
+         */
+        function loadLiveReports() {
+            const noscript = document.getElementById('jinja-noscript');
+            const feedList = document.getElementById('live-feed-list');
+            
+            if (noscript && feedList) {
+                const rawHTML = noscript.innerHTML || noscript.textContent;
+                // If Jinja processed the template successfully, it shouldn't contain raw Jinja tokens
+                if (rawHTML && !rawHTML.includes('{%') && !rawHTML.includes('{{') && rawHTML.trim().length > 0) {
+                    feedList.innerHTML = rawHTML;
+                } else {
+                    // Running on static preview/Express server, fetch reports dynamically via JSON API
+                    fetch('/get-reports')
+                        .then(res => res.json())
+                        .then(reports => {
+                            if (reports && reports.length > 0) {
+                                feedList.innerHTML = '';
+                                reports.forEach(report => {
+                                    const div = document.createElement('div');
+                                    div.className = "report-log-card";
+                                    div.style.cssText = "background-color: #ffffff; border-left: 5px solid #dc2626; padding: 15px 20px; border-radius: 4px; margin-bottom: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border-top: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; text-align: left;";
+                                    div.innerHTML = `
+                                        <div style="font-weight: bold; color: #0f172a; margin-bottom: 8px; font-size: 16px;">
+                                            <span style="color: #dc2626;">Suspect: ${report.phone_number}</span>
+                                            <span style="color: #475569; font-size: 14px; margin-left: 8px;">(Impersonated: ${report.company_name})</span>
+                                        </div>
+                                        <div style="font-size: 15px; color: #334155; line-height: 1.5;">
+                                            ${report.description}
+                                        </div>
+                                    `;
+                                    feedList.appendChild(div);
+                                });
+                            } else {
+                                feedList.innerHTML = '<p style="text-align: center; color: #64748b; font-style: italic;">No recent scam reports logged yet. Be the first to contribute!</p>';
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Failed to load live reports:", err);
+                            feedList.innerHTML = '<p style="text-align: center; color: #64748b; font-style: italic;">Temporary feed connection error.</p>';
+                        });
+                }
+            }
+        }
+
+        // Initialize on page ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLiveReports();
+        });
+    </script>
+</body>
+</html>
