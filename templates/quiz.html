@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Safety Awareness Test - CyberGuard</title>
+    <style>
+        /* ----------------------------------------------------------------- */
+        /* GLOBAL DESIGN SYSTEM (Times New Roman & Pristine White Theme Only) */
+        /* ----------------------------------------------------------------- */
+        * {
+            font-family: 'Times New Roman', Times, serif !important;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff; /* Pristine White */
+            color: #0f172a; /* Charcoal Blue */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar (Identical Layout) */
+        nav {
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #cbd5e1;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0f172a;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+            padding: 5px 0;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #0284c7 !important;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        /* Container styling */
+        .page-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        p.lead-text {
+            font-size: 18px;
+            color: #475569;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Quiz Card Design */
+        .quiz-card {
+            background-color: #f1f5f9; /* Off-white card */
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+        }
+
+        .scenario-tag {
+            font-size: 14px;
+            font-weight: bold;
+            color: #0284c7; /* Corporate blue */
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .scenario-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        /* Choice Buttons Layout */
+        .choice-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-choice {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #0f172a;
+            transition: all 0.2s ease;
+        }
+
+        .btn-choice:hover {
+            border-color: #0284c7;
+            color: #0284c7;
+            background-color: #f0fdf4;
+        }
+
+        /* Active choice highlight states */
+        .btn-choice.selected {
+            background-color: #0284c7 !important;
+            color: #ffffff !important;
+            border-color: #0284c7 !important;
+        }
+
+        /* Explanation Panel Layout */
+        .explanation-panel {
+            display: none; /* Hidden until user locks in answer */
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            border-left: 5px solid transparent;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        /* Response Visual Indicators */
+        .quiz-card.correct {
+            background-color: #f0fdf4 !important; /* Soft validation green */
+            border-color: #16a34a !important;
+        }
+        .quiz-card.correct .scenario-tag { color: #16a34a !important; }
+        .quiz-card.correct .explanation-panel {
+            display: block;
+            background-color: #ffffff;
+            border-color: #16a34a;
+            color: #14532d;
+        }
+
+        .quiz-card.incorrect {
+            background-color: #fef2f2 !important; /* Soft error red */
+            border-color: #dc2626 !important;
+        }
+        .quiz-card.incorrect .scenario-tag { color: #dc2626 !important; }
+        .quiz-card.incorrect .explanation-panel {
+            display: block;
+            background-color: #ffffff;
+            border-color: #dc2626;
+            color: #7f1d1d;
+        }
+
+        .result-heading {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        /* Overall Score Banner */
+        .score-banner {
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .score-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .btn-reset {
+            background-color: #0284c7 !important;
+            color: #ffffff !important;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: #026ca5 !important;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 14px;
+            color: #64748b;
+            border-top: 1px solid #cbd5e1;
+            margin-top: 60px;
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Hover Navigation Bar (Centered) -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="nav-logo">🛡️ CyberGuard: Scammer Prevent</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">🔍 Number Checker</a>
+                <a href="/education" class="nav-link">📚 Support Hub</a>
+                <a href="/quiz" class="nav-link active">🎯 Safety Quiz</a>
+                <a href="/reporting" class="nav-link">⚠️ Report Fraud</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        
+        <h1>Cyber Safety Simulator</h1>
+        <p class="lead-text">Test your tactical reflexes against typical Indian customer support scams. Make your split-second decisions below.</p>
+
+        <!-- Quiz Form / Scenario Deck -->
+        <div id="quiz-deck">
+
+            <!-- Scenario 1 -->
+            <div class="quiz-card" id="card-1">
+                <span class="scenario-tag">Scenario 1 of 5: Remote Control Assistance</span>
+                <div class="scenario-text">
+                    You receive an urgent phone call from an executive claiming to be with Paytm Security. He claims your wallet wallet KYC expired and asks you to install the "AnyDesk" remote client app so he can walk you through the upgrade. Do you comply?
+                </div>
+                <div class="choice-container">
+                    <button class="btn-choice" onclick="evaluateAnswer(1, 'YES', 'NO')">YES (Comply & Install)</button>
+                    <button class="btn-choice" onclick="evaluateAnswer(1, 'NO', 'NO')">NO (Decline & Terminate)</button>
+                </div>
+                <div class="explanation-panel" id="explain-1">
+                    <div class="result-heading" id="result-head-1">Result Evaluation</div>
+                    <div id="result-body-1">
+                        <strong>Cyber Defense Rule:</strong> Commercial platforms like Paytm, Amazon, or Google Pay will absolutely never ask customers to download screen-sharing utilities (AnyDesk, TeamViewer, RustDesk). Doing so compromises your active netbanking OTPs and secure credentials.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 2 -->
+            <div class="quiz-card" id="card-2">
+                <span class="scenario-tag">Scenario 2 of 5: The E-Commerce Buyer PIN</span>
+                <div class="scenario-text">
+                    An online buyer on OLX wants to purchase your listed bicycle. He forwards a WhatsApp QR code image, stating: <i>"Please scan this QR code and type in your UPI PIN to instantly receive the advance payment of ₹15,000 in your account."</i> Do you proceed to scan?
+                </div>
+                <div class="choice-container">
+                    <button class="btn-choice" onclick="evaluateAnswer(2, 'YES', 'NO')">YES (Scan & Input PIN)</button>
+                    <button class="btn-choice" onclick="evaluateAnswer(2, 'NO', 'NO')">NO (Reject Transaction)</button>
+                </div>
+                <div class="explanation-panel" id="explain-2">
+                    <div class="result-heading" id="result-head-2">Result Evaluation</div>
+                    <div id="result-body-2">
+                        <strong>Cyber Defense Rule:</strong> Receiving a refund, payment, or credit (₹) strictly requires zero UPI PIN authorizations and zero QR scans. The UPI PIN is designed exclusively to authorize outgoing funds from your own linked bank account.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 3 -->
+            <div class="quiz-card" id="card-3">
+                <span class="scenario-tag">Scenario 3 of 5: Cloned Bank Intercepts</span>
+                <div class="scenario-text">
+                    You receive an SMS from sender "AX-SBIINF" claiming: <i>"Your bank account is suspended due to PAN mismatch. Update profile details immediately at https://sbi-kyc-verify-portal.in to restore netbanking access."</i> Do you open the link and verify?
+                </div>
+                <div class="choice-container">
+                    <button class="btn-choice" onclick="evaluateAnswer(3, 'YES', 'NO')">YES (Open Portal & Fill Form)</button>
+                    <button class="btn-choice" onclick="evaluateAnswer(3, 'NO', 'NO')">NO (Flag as Phishing SMS)</button>
+                </div>
+                <div class="explanation-panel" id="explain-3">
+                    <div class="result-heading" id="result-head-3">Result Evaluation</div>
+                    <div id="result-body-3">
+                        <strong>Cyber Defense Rule:</strong> Major institutions like State Bank of India issue alerts exclusively via verified shortcodes, never linking to strange domains (like <code>sbi-kyc-verify-portal.in</code>). Official logins happen only on verified domains (e.g., <code>onlinesbi.sbi</code>).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 4 -->
+            <div class="quiz-card" id="card-4">
+                <span class="scenario-tag">Scenario 4 of 5: Virtual Police Imprisonment</span>
+                <div class="scenario-text">
+                    A WhatsApp video caller claiming to be a CBI officer tells you your Aadhaar was logged in a narcotics distribution scheme. He demands you stay on camera for a "Digital Arrest" and transfer ₹50,000 for verification. Do you initiate the transfer?
+                </div>
+                <div class="choice-container">
+                    <button class="btn-choice" onclick="evaluateAnswer(4, 'YES', 'NO')">YES (Transfer "Bail" Instantly)</button>
+                    <button class="btn-choice" onclick="evaluateAnswer(4, 'NO', 'NO')">NO (Refuse & Report Hotline)</button>
+                </div>
+                <div class="explanation-panel" id="explain-4">
+                    <div class="result-heading" id="result-head-4">Result Evaluation</div>
+                    <div id="result-body-4">
+                        <strong>Cyber Defense Rule:</strong> Indian law enforcement bureaus and police divisions never initiate criminal depositions or arrest warrants via WhatsApp calls or Skype, nor do they demand monetary clearing deposits (₹) to verify innocence.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 5 -->
+            <div class="quiz-card" id="card-5">
+                <span class="scenario-tag">Scenario 5 of 5: Golden Hour Mitigation</span>
+                <div class="scenario-text">
+                    Your colleague accidentally clicks a phishing link and realizes ₹30,000 was debited. You advise them to bypass local search results and dial the National Cybercrime Helpline at <strong>1930</strong> immediately within the hour. Is this correct advice?
+                </div>
+                <div class="choice-container">
+                    <button class="btn-choice" onclick="evaluateAnswer(5, 'YES', 'YES')">YES (Dial 1930 Helpline)</button>
+                    <button class="btn-choice" onclick="evaluateAnswer(5, 'NO', 'YES')">NO (Wait for Local Police Station)</button>
+                </div>
+                <div class="explanation-panel" id="explain-5">
+                    <div class="result-heading" id="result-head-5">Result Evaluation</div>
+                    <div id="result-body-5">
+                        <strong>Cyber Defense Rule:</strong> Yes! Dialing 1930 within the "golden hour" allows the National Cybercrime Portal to communicate directly with bank gateways, intercepting transaction logs and freezing stolen money (₹) before scammers cash out.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Dynamic Live Scoring Board -->
+        <div class="score-banner" id="score-card">
+            <div class="score-text">Simulated Readiness Score: <span id="score-value">0</span> / 5</div>
+            <p style="margin-top: 0; color:#475569; font-size:15px; margin-bottom: 15px;">Answer all scenario challenges to determine your risk posture index.</p>
+            <button onclick="resetQuiz()" class="btn-reset">Retry Simulator</button>
+        </div>
+
+    </div>
+
+    <!-- Corporate Footer -->
+    <footer>
+        <p>&copy; CyberGuard Scammer Prevention Portal - Academic Project Presentation.</p>
+        <p>Providing trusted threat telemetry securely without revealing raw, unverified contact numbers.</p>
+    </footer>
+
+    <!-- BEGINNER-FRIENDLY CODE DOCUMENTATION -->
+    <script>
+        // Track completed answers
+        let scoreCount = 0;
+        const answersRegistered = {};
+
+        /**
+         * Interactive Quiz Core Engine:
+         * Evaluates user selection, alters card styles dynamically with JavaScript,
+         * reveals explanation labels, and adjusts the scoring banner safely.
+         * 
+         * @param {number} questionId - The current question number (1-5)
+         * @param {string} userChoice - 'YES' or 'NO' based on button clicked
+         * @param {string} correctAnswer - The correct answer string ('YES' or 'NO')
+         */
+        function evaluateAnswer(questionId, userChoice, correctAnswer) {
+            // Prevent duplicate clicks on answered questions to keep scoring integrity
+            if (answersRegistered[questionId]) {
+                return; 
+            }
+            
+            answersRegistered[questionId] = userChoice;
+            const card = document.getElementById(`card-${questionId}`);
+            const head = document.getElementById(`result-head-${questionId}`);
+            const buttons = card.querySelectorAll('.btn-choice');
+            
+            // Basic JavaScript loop to highlight selected option button
+            buttons.forEach(btn => {
+                if (btn.innerText.includes(userChoice)) {
+                    btn.classList.add('selected');
+                }
+                btn.disabled = true; // Disable further clicking
+            });
+
+            // Compare user input to true cyber defense matrices
+            if (userChoice === correctAnswer) {
+                card.classList.add('correct');
+                head.innerHTML = "✅ CORRECT DECISION - SAFE CONTEXT";
+                scoreCount++;
+            } else {
+                card.classList.add('incorrect');
+                head.innerHTML = "❌ CRITICAL FAULT - SCAM EXPOSURE";
+            }
+
+            // Update user scoreboard instantly
+            document.getElementById('score-value').innerText = scoreCount;
+        }
+
+        /**
+         * Reset Utility:
+         * Restores all elements to default configurations, clears states,
+         * and unlocks action buttons for subsequent test iterations.
+         */
+        function resetQuiz() {
+            scoreCount = 0;
+            document.getElementById('score-value').innerText = scoreCount;
+            
+            for (let i = 1; i <= 5; i++) {
+                delete answersRegistered[i];
+                const card = document.getElementById(`card-${i}`);
+                card.className = "quiz-card"; // Reset to baseline styles
+                
+                const buttons = card.querySelectorAll('.btn-choice');
+                buttons.forEach(btn => {
+                    btn.className = "btn-choice";
+                    btn.disabled = false;
+                });
+                
+                const explain = document.getElementById(`explain-${i}`);
+                explain.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
